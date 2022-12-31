@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="main">
 		<input type="text" placeholder="按回车添加" v-model="val" @keydown.enter="addItem" />
 	</div>
 </template>
@@ -30,11 +30,12 @@
 </script>
 
 <style scoped>
-	div {
+	div.main {
 		display: flex;
 		background-color: gray;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
+		padding: 5px 10px 0 10px;
 	}
 
 	input {

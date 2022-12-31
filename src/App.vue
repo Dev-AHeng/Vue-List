@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="content">
 		<TodoInput :addF="addF"></TodoInput>
 		<TodoList :list="list" :changeList="changeList" :delItem="delItem"></TodoList>
 		<TodoTail :delAllItem="delAllItem" :list="list" :allItemCHe="allItemCHe"></TodoTail>
@@ -20,7 +20,15 @@
 		},
 		data() {
 			return {
-				list: []
+				list: JSON.parse(localStorage.getItem("list")) || []
+			}
+		},
+		watch: {
+			list: {
+				deep: true,
+				handler(val) {
+					localStorage.setItem("list", JSON.stringify(val))
+				}
 			}
 		},
 		methods: {
@@ -48,11 +56,27 @@
 				this.list.forEach((item) => {
 					item.isChe = isC
 				})
+			},
+			editContent(id, value) {
+				this.list.forEach((item) => {
+					if (item.id === id) {
+						item.content = value
+					}
+				})
 			}
 		},
+		mounted() {
+			this.$bus.$on("editContent", this.editContent)
+		},
+		beforeDestroy() {
+			this.$bus.$off("editContent")
+		}
 	}
 </script>
 
-<style>
-
+<style scoped>
+	.content {
+		width: 40%;
+		margin: 50px auto;
+	}
 </style>
